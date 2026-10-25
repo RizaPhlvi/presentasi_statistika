@@ -1,10 +1,10 @@
-// Ubah identitas presentasi di sini. Makalah tidak mencantumkan nama kelompok/mata kuliah,
-// jadi lengkapi sendiri sesuai kebutuhan.
+// Identitas presentasi (sesuai sampul makalah). Ubah di sini bila perlu.
 export const meta = {
   title: "Generalized Linear Model (GLM)",
   subtitle: "Model Gaussian dan Poisson",
-  presenter: "Ahmad Rizza Pahlevi",
-  nim: "60125032",
-  affiliation: "Sains Data, Fakultas Sains dan Teknologi, UIN K.H. Abdurrahman Wahid Pekalongan",
-  course: "", // contoh: "Statistika Lanjut"
+  course: "Statistika Lanjut",
+  className: "Kelas A",
+  lecturer: "Muhammad Rifqi Azizi, M.Pd.",
+  affiliation: "Prodi Sains Data, Fakultas Sains dan Teknologi, UIN K.H. Abdurrahman Wahid Pekalongan",
+  year: "2026",
 };

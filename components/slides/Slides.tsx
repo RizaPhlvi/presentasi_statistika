@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
@@ -22,9 +22,11 @@ export function Cover() {
       <p className="max-w-3xl text-base text-slate-300 md:text-xl">
         Pengertian GLM beserta model Gaussian dan Poisson.
       </p>
-      <div className="text-base text-slate-200 md:text-lg">
+      <div className="space-y-1 text-base text-slate-200 md:text-lg">
+        <p className="font-semibold">Mata Kuliah {meta.course} · {meta.className}</p>
+        <p>Dosen Pengampu: {meta.lecturer}</p>
         <p className="text-slate-400">{meta.affiliation}</p>
-        {meta.course && <p className="text-slate-400">{meta.course}</p>}
+        <p className="text-slate-400">{meta.year}</p>
       </div>
     </div>
   );
@@ -148,30 +150,12 @@ export function Inference() {
           <Bullets items={["Deviance/df dan Pearson χ²/df", "Poisson: jauh di atas 1 berarti overdispersion (alternatif: quasi-Poisson atau binomial negatif)", "AIC dan BIC: lebih kecil lebih baik"]} />
         </Card>
         <Card title="Variabel kategorik" accent>
-          SPSS memakai pengodean dummy dengan kategori terakhir sebagai referensi: perempuan (2) = referensi, sehingga koefisien laki-laki (1) dibaca terhadap perempuan.
+          SPSS memakai pengodean dummy dengan kategori terakhir sebagai referensi. Jenis_Kelamin = 2 (perempuan) bernilai 0 dan diberi tanda "redundan", sedangkan koefisien Jenis_Kelamin = 1 (laki-laki) dibaca terhadap perempuan.
         </Card>
         <Card title="Parameter Scale">
           Gaussian: diestimasi (varians galat). Poisson: dikunci pada 1.
         </Card>
       </div>
-    </Frame>
-  );
-}
-
-/* 15 — Saran */
-export function Suggestions() {
-  return (
-    <Frame kicker="Penutup" title="Saran">
-      <Card>
-        <Bullets
-          items={[
-            "Gunakan data absensi nyata dan sampel lebih besar; 20 karyawan simulasi hanya cukup untuk ilustrasi metode",
-            "Periksa asumsi Gaussian dengan Q-Q plot dan plot residual; pertimbangkan model ordinal untuk skor 1–10",
-            "Uji interaksi jenis kelamin × pengalaman; bandingkan model dengan AIC/BIC pada respons yang sama",
-            "Bila data nyata overdispersed, gunakan quasi-Poisson atau binomial negatif",
-          ]}
-        />
-      </Card>
     </Frame>
   );
 }
@@ -214,18 +198,26 @@ export function Closing() {
   );
 }
 
-/* Tujuan */
+/* Rumusan masalah dan tujuan (sesuai makalah) */
 export function Aims() {
   return (
-    <Frame kicker="Pendahuluan" title="Tujuan Pembahasan">
-      <Card>
-        <ol className="list-decimal space-y-3 pl-5">
-          <li>Memahami pengertian GLM dan tiga komponen penyusunnya.</li>
-          <li>Memahami GLM Gaussian untuk respons kontinu.</li>
-          <li>Memahami GLM Poisson untuk data cacah.</li>
-          <li>Membandingkan keduanya dari segi distribusi, fungsi link, dan makna koefisien.</li>
-        </ol>
-      </Card>
+    <Frame kicker="Pendahuluan" title="Rumusan Masalah dan Tujuan">
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card title="Rumusan masalah">
+          <ol className="list-decimal space-y-2 pl-5">
+            <li>Bagaimana pengaruh jenis kelamin dan lama pengalaman kerja terhadap skor kepuasan kerja menurut model GLM Gaussian?</li>
+            <li>Bagaimana pengaruh kedua prediktor terhadap jumlah absensi menurut model GLM Poisson?</li>
+            <li>Bagaimana perbedaan interpretasi koefisien pada kedua model?</li>
+          </ol>
+        </Card>
+        <Card title="Tujuan">
+          <ol className="list-decimal space-y-2 pl-5">
+            <li>Mengestimasi dan menafsirkan model GLM Gaussian untuk skor kepuasan kerja.</li>
+            <li>Mengestimasi dan menafsirkan model GLM Poisson untuk jumlah absensi.</li>
+            <li>Membandingkan kedua model dari segi distribusi, fungsi link, dan makna koefisien.</li>
+          </ol>
+        </Card>
+      </div>
     </Frame>
   );
 }
@@ -233,10 +225,7 @@ export function Aims() {
 /* Pengertian GLM */
 export function Components() {
   return (
-    <Frame kicker="Pengertian" title="Pengertian dan Tiga Komponen GLM">
-      <Card accent title="Generalized Linear Model (GLM)">
-        Perluasan regresi linear: respons boleh berasal dari keluarga distribusi eksponensial, dan rata-rata respons dihubungkan ke prediktor linear lewat fungsi link.
-      </Card>
+    <Frame kicker="Pengertian" title="Tiga Komponen GLM">
       <div className="grid gap-4 md:grid-cols-3">
         <Card title="1. Komponen acak">Distribusi respons dari keluarga eksponensial (mis. Normal, Poisson).</Card>
         <Card title="2. Prediktor linear">
@@ -392,6 +381,9 @@ export function Descriptive() {
           <MiniBar title="Rata-rata jumlah absensi (n = 19)" color="#60a5fa" data={[{ g: "Laki-laki", v: 4.2 }, { g: "Perempuan", v: 2.67 }]} />
         </Card>
       </div>
+      <Card accent title="Pola deskriptif">
+        Laki-laki memiliki skor kepuasan lebih rendah dan absensi lebih tinggi daripada perempuan, sedangkan rata-rata pengalaman kerja kedua kelompok hampir sama.
+      </Card>
     </Frame>
   );
 }
@@ -410,6 +402,104 @@ export function Conclusion() {
         <Card title="Poisson" accent>
           Respons cacah, link log. Koefisien dibaca lewat Exp(B) sebagai rasio multiplikatif.
         </Card>
+      </div>
+    </Frame>
+  );
+}
+
+/* Definisi dan tujuan GLM (sesuai makalah) */
+export function Definition() {
+  return (
+    <Frame kicker="Pengertian" title="Definisi dan Tujuan GLM">
+      <Card accent title="Definisi (Nelder)">
+        Generalized linear model (GLM) adalah perluasan regresi linear: prediktor berefek linear, tetapi tidak mengasumsikan distribusi tertentu untuk variabel respons. GLM dipakai bila respons merupakan anggota keluarga eksponensial.
+      </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card title="Tujuan">Mengetahui hubungan sebab-akibat, yaitu pengaruh variabel independen terhadap variabel dependen.</Card>
+        <Card title="Keunggulan">Dibanding regresi linear biasa, keunggulan GLM terletak pada distribusi (bentuk kurva) variabel dependen.</Card>
+      </div>
+    </Frame>
+  );
+}
+
+/* Konteks data */
+export function Context() {
+  return (
+    <Frame kicker="Data" title="Konteks Data: PT Sejahtera Mandiri">
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card title="Perusahaan">
+          Perusahaan manufaktur dan agribisnis. Manajemen SDM dan Manajemen Kinerja ingin mengevaluasi dua aspek internal karyawan: kepuasan kerja dan kedisiplinan (absensi).
+        </Card>
+        <Card title="Dugaan manajemen">
+          Skor kepuasan kerja (skala 1–10) dan jumlah absensi dalam satu tahun dipengaruhi faktor demografi (jenis kelamin: 1 = laki-laki, 2 = perempuan) dan faktor profesional (lama pengalaman kerja).
+        </Card>
+        <Card title="Pengujian" accent>
+          Data sampel 20 karyawan diuji dengan GLM di SPSS, dibagi menjadi dua model sesuai karakteristik data: Gaussian untuk kepuasan kerja dan Poisson untuk absensi.
+        </Card>
+      </div>
+    </Frame>
+  );
+}
+
+/* Bagian-bagian GLM di SPSS */
+const spssMenus: { name: string; desc: string }[] = [
+  { name: "Type of Models", desc: "Memilih tipe respons: skala, ordinal, hitungan, biner, atau campuran." },
+  { name: "Respons", desc: "Menentukan variabel dependen dan scale weight (bila perlu); pada respons biner dapat menentukan kategori referensi." },
+  { name: "Predictor", desc: "Menentukan factor, kovariat, dan variabel offset sebagai variabel independen." },
+  { name: "Model", desc: "Menentukan model. Default-nya intercept-only, bukan full factorial." },
+  { name: "Estimation", desc: "Menentukan cara parameter diestimasi dan matriks kovariansi yang dipakai." },
+  { name: "Statistics", desc: "Memilih statistik yang dilaporkan di output. Default-nya Type III." },
+  { name: "EM Means", desc: "Menampilkan mean marginal untuk level faktor." },
+  { name: "Save", desc: "Menyimpan statistik untuk analisis lanjutan dan diagnosis model." },
+  { name: "Export", desc: "Mengekspor model final sebagai data atau XML." },
+];
+
+export function SpssMenus() {
+  return (
+    <Frame kicker="Praktik SPSS" title="Bagian-Bagian Generalized Linear Models">
+      <div className="grid gap-3 md:grid-cols-3">
+        {spssMenus.map((m, i) => (
+          <div key={m.name} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p className="flex items-center gap-2 text-base font-semibold text-cyan-200 md:text-lg">
+              <span className="font-mono text-sm text-slate-400">{String(i + 1).padStart(2, "0")}</span>
+              {m.name}
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-slate-100 md:text-base">{m.desc}</p>
+          </div>
+        ))}
+      </div>
+    </Frame>
+  );
+}
+
+/* Langkah praktik di SPSS */
+export function SpssSteps() {
+  const steps: { title: string; body: ReactNode }[] = [
+    { title: "Tetapkan variabel", body: "Tentukan respons, faktor, dan kovariat." },
+    { title: "Pilih distribusi dan link", body: "Normal–identitas untuk kepuasan; Poisson–log untuk absensi." },
+    { title: "Jalankan di SPSS", body: "Masukkan Factor dan Covariate, lalu minta Parameter Estimates dan Goodness of Fit." },
+    { title: "Rumuskan hipotesis", body: <Tex tex={tex`H_0:\beta_j=0\ \text{melawan}\ H_1:\beta_j\neq 0`} /> },
+    { title: "Ambil keputusan", body: "Pada α = 0,05, tolak H₀ bila Sig. < 0,05 atau CI Wald tidak memuat 0 (Exp(B): tidak memuat 1)." },
+    { title: "Tafsirkan", body: "Tulis persamaan, baca tanda dan besar koefisien, simpulkan dalam konteks." },
+  ];
+  return (
+    <Frame kicker="Praktik SPSS" title="Langkah Praktik di SPSS">
+      <Card accent title="Menu SPSS">
+        Analyze → Generalized Linear Models → Generalized Linear Models
+        <p className="mt-2 text-sm text-slate-200 md:text-base">
+          Jenis_Kelamin sebagai Factor, Lama_Pengalaman_Kerja_Tahun sebagai Covariate.
+        </p>
+      </Card>
+      <div className="grid gap-3 md:grid-cols-3">
+        {steps.map((s, i) => (
+          <div key={s.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-cyan-400 font-bold text-navy-900">{i + 1}</span>
+              <p className="text-base font-semibold text-white md:text-lg">{s.title}</p>
+            </div>
+            <div className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{s.body}</div>
+          </div>
+        ))}
       </div>
     </Frame>
   );
