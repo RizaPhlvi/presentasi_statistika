@@ -5,6 +5,7 @@ export type SlideDef = { id: string; title: string; Component: ComponentType };
 
 export const slides: SlideDef[] = [
   { id: "cover", title: "Cover", Component: S.Cover },
+  { id: "anggota", title: "Anggota Kelompok", Component: S.Members },
   { id: "latar-belakang", title: "Latar Belakang", Component: S.Background },
   { id: "tujuan", title: "Tujuan Pembahasan", Component: S.Aims },
   { id: "pengertian", title: "Pengertian dan Tiga Komponen GLM", Component: S.Components },

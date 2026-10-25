@@ -23,11 +23,40 @@ export function Cover() {
         Pengertian GLM beserta model Gaussian dan Poisson.
       </p>
       <div className="text-base text-slate-200 md:text-lg">
-        <p className="font-semibold">{meta.presenter} · NIM {meta.nim}</p>
         <p className="text-slate-400">{meta.affiliation}</p>
         {meta.course && <p className="text-slate-400">{meta.course}</p>}
       </div>
     </div>
+  );
+}
+
+/* Anggota Kelompok */
+const members: { name: string; nim: string }[] = [
+  { name: "Achamad Ridwan", nim: "60125008" },
+  { name: "Zaskiyah Sofarina", nim: "60125013" },
+  { name: "Elgin Pandya Adinata", nim: "60125015" },
+  { name: "Ahmad Rizza Pahlevi", nim: "60125032" },
+  { name: "Bintan Kamila", nim: "60125050" },
+  { name: "Achmad Pauzan", nim: "60125058" },
+];
+
+export function Members() {
+  return (
+    <Frame kicker="Kelompok" title="Perkenalan Anggota Kelompok">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+        {members.map((m) => (
+          <Card key={m.nim}>
+            <div className="flex flex-col items-center gap-2 py-3 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-400/20 text-xl font-bold text-cyan-300">
+                {m.name.charAt(0)}
+              </div>
+              <p className="text-sm font-semibold leading-snug text-white md:text-base">{m.name}</p>
+              <p className="text-xs text-cyan-300 md:text-sm">NIM {m.nim}</p>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </Frame>
   );
 }
 
