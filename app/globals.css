@@ -2,11 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; margin: 0; background: #0a1a33; color: #e8f1ff; }
-body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+:root {
+  --navy-950: #060f22;
+  --navy-900: #0a1a33;
+  --navy-800: #10284d;
+  --cyan: #22d3ee;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--navy-950);
+  color: #e8f1ff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Latar slide: gradasi gelap + grid geometris tipis + aksen cahaya ---------- */
+.slide-bg {
+  background:
+    radial-gradient(1100px 520px at 85% -10%, rgba(34, 211, 238, 0.07), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(96, 165, 250, 0.06), transparent 55%),
+    linear-gradient(160deg, #0b1c38 0%, #0a1a33 45%, #081527 100%);
+}
+
+.slide-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* ---------- Kartu & panel ---------- */
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.03));
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 10px 30px -18px rgba(2, 8, 20, 0.6);
+  padding: 1.25rem;
+}
+
+.card-accent {
+  border-color: rgba(34, 211, 238, 0.45);
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(34, 211, 238, 0.05));
+  box-shadow:
+    0 1px 0 0 rgba(34, 211, 238, 0.15) inset,
+    0 10px 30px -18px rgba(2, 8, 20, 0.6);
+}
+
+/* ---------- Tabel ---------- */
+.table-shell {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -18px rgba(2, 8, 20, 0.6);
+}
+
+/* ---------- Garis aksen judul ---------- */
+.title-rule {
+  height: 3px;
+  width: 5rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #22d3ee, rgba(34, 211, 238, 0));
+}
+
+/* ---------- KaTeX ---------- */
 .katex { font-size: 1.15em; }
-.katex-display { margin: 0.4em 0; overflow-x: auto; overflow-y: hidden; }
-:focus-visible { outline: 2px solid #22d3ee; outline-offset: 2px; }
+.katex-display { margin: 0.45em 0; overflow-x: auto; overflow-y: hidden; }
+
+/* ---------- Kontrol presentasi ---------- */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #dbe7f8;
+  padding: 0.5rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.nav-btn:hover:not(:disabled) {
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.35);
+  color: #a5f3fc;
+}
+.nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.progress-track { background: rgba(255, 255, 255, 0.08); }
+.progress-fill {
+  background: linear-gradient(90deg, #0ea5e9, #22d3ee 60%, #67e8f9);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
+}
+
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

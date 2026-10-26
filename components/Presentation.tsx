@@ -82,7 +82,7 @@ export default function Presentation() {
 
   const Current = slides[index].Component;
   const pct = ((index + 1) / total) * 100;
-  const btn = "rounded-lg p-2 text-slate-200 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30";
+  const btn = "nav-btn";
 
   return (
     <div className="flex h-dvh flex-col bg-navy-900 text-slate-100">
@@ -94,10 +94,10 @@ export default function Presentation() {
         aria-valuemax={total}
         aria-valuenow={index + 1}
       >
-        <div className="h-full bg-cyan-400 transition-[width] duration-300" style={{ width: `${pct}%` }} />
+        <div className="progress-fill h-full rounded-r-full transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }} />
       </div>
 
-      <main className="relative min-h-0 flex-1 overflow-hidden bg-gradient-to-br from-navy-900 via-navy-900 to-navy-800">
+      <main className="slide-bg relative min-h-0 flex-1 overflow-hidden">
         <AnimatePresence mode="wait" custom={dir} initial={false}>
           <motion.section
             key={index}
@@ -119,7 +119,7 @@ export default function Presentation() {
         </AnimatePresence>
       </main>
 
-      <footer className="flex items-center justify-between gap-2 border-t border-white/10 bg-navy-900 px-3 py-2">
+      <footer className="flex items-center justify-between gap-2 border-t border-white/[0.07] bg-navy-950/90 px-4 py-2.5 backdrop-blur">
         <button type="button" className={btn} onClick={() => setMenu(true)} aria-label="Buka daftar slide (M)">
           <List size={22} />
         </button>
@@ -127,7 +127,7 @@ export default function Presentation() {
           <button type="button" className={btn} onClick={() => go(index - 1)} disabled={index === 0} aria-label="Slide sebelumnya (←)">
             <ChevronLeft size={24} />
           </button>
-          <span className="min-w-[5.5rem] text-center font-mono text-base tabular-nums text-cyan-200" aria-live="polite">
+          <span className="min-w-[6rem] rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-center font-mono text-sm tabular-nums tracking-wider text-cyan-200 md:text-base" aria-live="polite">
             {pad(index + 1)} / {pad(total)}
           </span>
           <button type="button" className={btn} onClick={() => go(index + 1)} disabled={index === total - 1} aria-label="Slide berikutnya (→)">
@@ -140,16 +140,16 @@ export default function Presentation() {
       </footer>
 
       {menu && (
-        <div className="fixed inset-0 z-40 flex justify-end bg-black/60" onClick={() => setMenu(false)}>
+        <div className="fixed inset-0 z-40 flex justify-end bg-black/60 backdrop-blur-sm" onClick={() => setMenu(false)}>
           <nav
             role="dialog"
             aria-modal="true"
             aria-label="Daftar slide"
-            className="h-full w-full max-w-sm overflow-y-auto border-l border-white/10 bg-navy-800 p-4"
+            className="h-full w-full max-w-sm overflow-y-auto border-l border-white/10 bg-navy-900/95 p-5 shadow-[-24px_0_48px_-24px_rgba(0,0,0,0.7)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-cyan-200">Daftar Slide</h2>
+              <h2 className="text-lg font-semibold tracking-wide text-cyan-200">Daftar Slide</h2>
               <button type="button" className={btn} onClick={() => setMenu(false)} aria-label="Tutup daftar slide">
                 <X size={22} />
               </button>
@@ -163,11 +163,13 @@ export default function Presentation() {
                       go(i);
                       setMenu(false);
                     }}
-                    className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-base hover:bg-white/10 ${
-                      i === index ? "bg-cyan-400/15 text-cyan-200" : "text-slate-200"
+                    className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-left text-base transition-colors ${
+                      i === index
+                        ? "border-cyan-400/40 bg-cyan-400/15 text-cyan-200"
+                        : "border-transparent text-slate-200 hover:border-white/10 hover:bg-white/[0.06]"
                     }`}
                   >
-                    <span className="font-mono text-sm text-slate-400">{pad(i + 1)}</span>
+                    <span className={`font-mono text-sm tabular-nums ${i === index ? "text-cyan-300" : "text-slate-400"}`}>{pad(i + 1)}</span>
                     {s.title}
                   </button>
                 </li>

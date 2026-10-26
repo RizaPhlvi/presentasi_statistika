@@ -9,24 +9,37 @@ import { Bullets, Card, DataTable, Frame, Note, Tex, ZoomImage } from "@/compone
 
 const tex = String.raw;
 const CYAN = "#22d3ee";
-const SLATE = "#94a3b8";
+const BLUE = "#60a5fa";
+const SLATE = "#9fb3cc";
+const GRID = "rgba(148,163,184,0.14)";
+const AXIS_TICK = { fontSize: 13, fill: SLATE };
+const TOOLTIP_STYLE = {
+  background: "rgba(10,26,51,0.96)",
+  border: "1px solid rgba(34,211,238,0.35)",
+  borderRadius: "0.75rem",
+  color: "#e8f1ff",
+  fontSize: 14,
+  boxShadow: "0 10px 30px -12px rgba(0,0,0,0.6)",
+};
 
 /* 1 — Cover */
 export function Cover() {
   return (
-    <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 px-6 py-10 md:px-12">
-      <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-300">Presentasi Makalah</p>
-      <h1 className="text-4xl font-bold leading-tight text-white md:text-7xl">{meta.title}</h1>
-      <p className="text-2xl text-cyan-300 md:text-4xl">{meta.subtitle}</p>
-      <div className="h-1 w-28 rounded bg-cyan-400" />
-      <p className="max-w-3xl text-base text-slate-300 md:text-xl">
+    <div className="relative z-10 mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 px-8 py-12 md:px-14">
+      <div className="border-l-4 border-cyan-400/80 pl-5 md:pl-7">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Presentasi Makalah</p>
+        <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tightest text-white md:text-7xl">{meta.title}</h1>
+        <p className="mt-3 bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-2xl font-semibold text-transparent md:text-4xl">{meta.subtitle}</p>
+      </div>
+      <div className="title-rule !w-28" />
+      <p className="max-w-3xl text-base leading-relaxed text-slate-300 md:text-xl">
         Pengertian GLM beserta model Gaussian dan Poisson.
       </p>
-      <div className="space-y-1 text-base text-slate-200 md:text-lg">
-        <p className="font-semibold">Mata Kuliah {meta.course} · {meta.className}</p>
-        <p>Dosen Pengampu: {meta.lecturer}</p>
-        <p className="text-slate-400">{meta.affiliation}</p>
-        <p className="text-slate-400">{meta.year}</p>
+      <div className="card mt-2 max-w-2xl space-y-1.5 !py-4">
+        <p className="font-semibold text-white">Mata Kuliah {meta.course} · {meta.className}</p>
+        <p className="text-slate-200">Dosen Pengampu: {meta.lecturer}</p>
+        <p className="text-sm text-slate-400 md:text-base">{meta.affiliation}</p>
+        <p className="text-sm text-slate-400 md:text-base">{meta.year}</p>
       </div>
     </div>
   );
@@ -49,11 +62,11 @@ export function Members() {
         {members.map((m) => (
           <Card key={m.nim}>
             <div className="flex flex-col items-center gap-2 py-3 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-400/20 text-xl font-bold text-cyan-300">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400/30 to-sky-500/10 text-xl font-bold text-cyan-200 ring-1 ring-cyan-400/40">
                 {m.name.charAt(0)}
               </div>
-              <p className="text-sm font-semibold leading-snug text-white md:text-base">{m.name}</p>
-              <p className="text-xs text-cyan-300 md:text-sm">NIM {m.nim}</p>
+              <p className="text-sm font-semibold leading-snug tracking-tight text-white md:text-base">{m.name}</p>
+              <p className="rounded-full bg-cyan-400/10 px-2.5 py-0.5 font-mono text-xs tabular-nums text-cyan-300 ring-1 ring-inset ring-cyan-400/25 md:text-sm">NIM {m.nim}</p>
             </div>
           </Card>
         ))}
@@ -105,11 +118,17 @@ export function Shapes() {
           <div className="h-40 md:h-52">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={normal}>
-                <CartesianGrid stroke="#ffffff15" />
-                <XAxis dataKey="x" interval={7} stroke={SLATE} />
+                <defs>
+                  <linearGradient id="fillCyan" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={CYAN} stopOpacity={0.35} />
+                    <stop offset="100%" stopColor={CYAN} stopOpacity={0.04} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="x" interval={7} stroke={SLATE} tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: GRID }} />
                 <YAxis hide />
-                <Tooltip formatter={(v: number) => v.toFixed(3)} contentStyle={{ background: "#10284d", border: "none" }} />
-                <Area type="monotone" dataKey="y" stroke={CYAN} fill={CYAN} fillOpacity={0.25} name="Kepadatan" />
+                <Tooltip formatter={(v: number) => v.toFixed(3)} contentStyle={TOOLTIP_STYLE} labelStyle={{ color: "#a5f3fc" }} cursor={{ stroke: "rgba(34,211,238,0.3)" }} />
+                <Area type="monotone" dataKey="y" stroke={CYAN} strokeWidth={2.5} fill="url(#fillCyan)" name="Kepadatan" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -119,11 +138,17 @@ export function Shapes() {
           <div className="h-40 md:h-52">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={poisson}>
-                <CartesianGrid stroke="#ffffff15" />
-                <XAxis dataKey="k" stroke={SLATE} />
+                <defs>
+                  <linearGradient id="fillBlue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={BLUE} stopOpacity={0.95} />
+                    <stop offset="100%" stopColor={BLUE} stopOpacity={0.45} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="k" stroke={SLATE} tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: GRID }} />
                 <YAxis hide />
-                <Tooltip formatter={(v: number) => v.toFixed(3)} contentStyle={{ background: "#10284d", border: "none" }} />
-                <Bar dataKey="p" fill="#60a5fa" name="Peluang" />
+                <Tooltip formatter={(v: number) => v.toFixed(3)} contentStyle={TOOLTIP_STYLE} labelStyle={{ color: "#a5f3fc" }} cursor={{ fill: "rgba(148,163,184,0.08)" }} />
+                <Bar dataKey="p" fill="url(#fillBlue)" radius={[5, 5, 0, 0]} name="Peluang" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -163,11 +188,13 @@ export function Inference() {
 /* Penutup */
 export function Closing() {
   return (
-    <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 px-6 py-10 md:px-12">
-      <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-300">Penutup</p>
-      <h2 className="text-4xl font-bold text-white md:text-7xl">Terima Kasih</h2>
-      <p className="text-2xl text-cyan-300 md:text-4xl">Sesi Tanya Jawab</p>
-      <div className="h-1 w-28 rounded bg-cyan-400" />
+    <div className="relative z-10 mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 px-8 py-12 md:px-14">
+      <div className="border-l-4 border-cyan-400/80 pl-5 md:pl-7">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Penutup</p>
+        <h2 className="mt-4 text-4xl font-bold tracking-tightest text-white md:text-7xl">Terima Kasih</h2>
+        <p className="mt-3 bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-2xl font-semibold text-transparent md:text-4xl">Sesi Tanya Jawab</p>
+      </div>
+      <div className="title-rule !w-28" />
       <Bullets
         items={[
           "GLM = komponen acak + prediktor linear + fungsi link",
@@ -305,7 +332,7 @@ export function Flow() {
         <ZoomImage
           src="/images/flowchart-glm.png"
           alt="Diagram alur analisis GLM: data, pemilihan variabel respons dan prediktor, statistika deskriptif, pemeriksaan linieritas, pemilihan fungsi link, identifikasi distribusi respons, pemodelan distribusi respons, pemodelan GLM, pemilihan model terbaik, model terbaik"
-          className="max-h-[52vh] w-auto rounded-xl bg-white p-2"
+          className="max-h-[52vh] w-auto rounded-xl bg-white p-2 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.7)] ring-1 ring-white/15"
         />
       </div>
       <Note>Klik gambar untuk memperbesar.</Note>
@@ -335,14 +362,14 @@ export function Variables() {
 function MiniBar({ title, data, color }: { title: string; data: { g: string; v: number }[]; color: string }) {
   return (
     <div>
-      <p className="mb-1 text-center text-base text-slate-200 md:text-lg">{title}</p>
+      <p className="mb-1.5 text-center text-base font-medium tracking-tight text-slate-100 md:text-lg">{title}</p>
       <div className="h-44 md:h-56">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 20 }}>
-            <XAxis dataKey="g" stroke={SLATE} />
+          <BarChart data={data} margin={{ top: 26 }}>
+            <XAxis dataKey="g" stroke={SLATE} tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: GRID }} />
             <YAxis hide domain={[0, "dataMax + 2"]} />
-            <Bar dataKey="v" fill={color} radius={[6, 6, 0, 0]}>
-              <LabelList dataKey="v" position="top" fill="#e8f1ff" formatter={(v: number) => String(v).replace(".", ",")} />
+            <Bar dataKey="v" fill={color} fillOpacity={0.85} radius={[6, 6, 0, 0]}>
+              <LabelList dataKey="v" position="top" fill="#e8f1ff" fontSize={15} fontWeight={600} formatter={(v: number) => String(v).replace(".", ",")} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -359,7 +386,7 @@ export function Descriptive() {
           <MiniBar title="Rata-rata skor kepuasan (n = 20)" color={CYAN} data={[{ g: "Laki-laki", v: 6.2 }, { g: "Perempuan", v: 7.7 }]} />
         </Card>
         <Card>
-          <MiniBar title="Rata-rata jumlah absensi (n = 19)" color="#60a5fa" data={[{ g: "Laki-laki", v: 4.2 }, { g: "Perempuan", v: 2.67 }]} />
+          <MiniBar title="Rata-rata jumlah absensi (n = 19)" color={BLUE} data={[{ g: "Laki-laki", v: 4.2 }, { g: "Perempuan", v: 2.67 }]} />
         </Card>
       </div>
       <Card accent title="Pola deskriptif">
@@ -440,9 +467,9 @@ export function SpssMenus() {
     <Frame kicker="Praktik SPSS" title="Bagian-Bagian Generalized Linear Models">
       <div className="grid gap-3 md:grid-cols-3">
         {spssMenus.map((m, i) => (
-          <div key={m.name} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p className="flex items-center gap-2 text-base font-semibold text-cyan-200 md:text-lg">
-              <span className="font-mono text-sm text-slate-400">{String(i + 1).padStart(2, "0")}</span>
+          <div key={m.name} className="card !p-4">
+            <p className="flex items-center gap-2 text-base font-semibold tracking-tight text-cyan-200 md:text-lg">
+              <span className="font-mono text-sm tabular-nums text-slate-400">{String(i + 1).padStart(2, "0")}</span>
               {m.name}
             </p>
             <p className="mt-1 text-sm leading-relaxed text-slate-100 md:text-base">{m.desc}</p>
@@ -473,9 +500,9 @@ export function SpssSteps() {
       </Card>
       <div className="grid gap-3 md:grid-cols-3">
         {steps.map((s, i) => (
-          <div key={s.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div key={s.title} className="card !p-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-cyan-400 font-bold text-navy-900">{i + 1}</span>
+              <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-gradient-to-br from-cyan-300 to-cyan-500 font-bold text-navy-900 shadow-[0_0_10px_rgba(34,211,238,0.35)]">{i + 1}</span>
               <p className="text-base font-semibold text-white md:text-lg">{s.title}</p>
             </div>
             <div className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{s.body}</div>

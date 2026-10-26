@@ -11,11 +11,14 @@ export function Tex({ tex, block = false }: { tex: string; block?: boolean }) {
 
 export function Frame({ kicker, title, children }: { kicker: string; title: string; children: ReactNode }) {
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center gap-5 px-6 py-8 md:px-12">
+    <div className="relative z-10 mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center gap-6 px-8 py-10 md:px-14">
       <header>
-        <p className="text-xs font-medium uppercase tracking-[0.25em] text-cyan-300 md:text-sm">{kicker}</p>
-        <h2 className="mt-2 text-3xl font-semibold leading-tight text-white md:text-5xl">{title}</h2>
-        <div className="mt-4 h-1 w-20 rounded bg-cyan-400" />
+        <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.28em] text-cyan-300 md:text-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.7)]" aria-hidden />
+          {kicker}
+        </p>
+        <h2 className="mt-2.5 text-3xl font-bold leading-tight tracking-tightest text-white md:text-5xl">{title}</h2>
+        <div className="title-rule mt-4" />
       </header>
       {children}
     </div>
@@ -24,19 +27,25 @@ export function Frame({ kicker, title, children }: { kicker: string; title: stri
 
 export function Card({ title, children, accent = false }: { title?: string; children: ReactNode; accent?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-5 ${accent ? "border-cyan-400/60 bg-cyan-400/10" : "border-white/10 bg-white/5"}`}>
-      {title && <h3 className="mb-2 text-lg font-semibold text-cyan-200 md:text-xl">{title}</h3>}
-      <div className="text-base leading-relaxed text-slate-100 md:text-xl">{children}</div>
+    <div className={`card ${accent ? "card-accent" : ""}`}>
+      {title && (
+        <h3 className={`mb-2.5 text-lg font-semibold tracking-tight md:text-xl ${accent ? "text-cyan-200" : "text-cyan-200/90"}`}>
+          {title}
+        </h3>
+      )}
+      <div className="text-base leading-relaxed text-slate-100 md:text-lg">{children}</div>
     </div>
   );
 }
 
 export function Bullets({ items }: { items: ReactNode[] }) {
   return (
-    <ul className="space-y-2 text-base leading-relaxed text-slate-100 md:text-xl">
+    <ul className="space-y-2.5 text-base leading-relaxed text-slate-100 md:text-lg">
       {items.map((it, i) => (
         <li key={i} className="flex gap-3">
-          <span className="mt-2.5 h-2 w-2 flex-none rounded-full bg-cyan-400" />
+          <svg width="16" height="16" viewBox="0 0 16 16" className="mt-1.5 flex-none text-cyan-400 md:mt-2" aria-hidden>
+            <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           <span>{it}</span>
         </li>
       ))}
@@ -46,15 +55,17 @@ export function Bullets({ items }: { items: ReactNode[] }) {
 
 export function DataTable({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-white/10">
+    <div className="table-shell overflow-x-auto">
       <table className="w-full min-w-[34rem] border-collapse text-left text-sm md:text-lg">
-        <thead className="bg-navy-700 text-cyan-200">
-          <tr>{head.map((h) => <th key={h} className="px-4 py-3 font-semibold">{h}</th>)}</tr>
+        <thead className="bg-navy-700/80 text-cyan-200 shadow-[inset_0_-1px_0_rgba(34,211,238,0.25)]">
+          <tr>{head.map((h) => <th key={h} className="px-5 py-3.5 font-semibold tracking-wide">{h}</th>)}</tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className="border-t border-white/10 odd:bg-white/[0.03]">
-              {r.map((c, j) => <td key={j} className="px-4 py-2.5 align-top">{c}</td>)}
+            <tr key={i} className="border-t border-white/[0.07] odd:bg-white/[0.03]">
+              {r.map((c, j) => (
+                <td key={j} className={`px-5 py-3 align-top ${j === 0 ? "font-medium text-cyan-100/90" : "text-slate-100"}`}>{c}</td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -64,7 +75,11 @@ export function DataTable({ head, rows }: { head: string[]; rows: ReactNode[][] 
 }
 
 export function Note({ children }: { children: ReactNode }) {
-  return <p className="text-sm leading-relaxed text-slate-300 md:text-base">{children}</p>;
+  return (
+    <p className="border-l-2 border-cyan-400/40 pl-3 text-sm italic leading-relaxed text-slate-300 md:text-base">
+      {children}
+    </p>
+  );
 }
 
 /** Gambar yang dapat diklik untuk diperbesar (layar penuh). */
