@@ -176,25 +176,6 @@ export function Suggestions() {
   );
 }
 
-/* 16 — Referensi */
-export function References() {
-  return (
-    <Frame kicker="Penutup" title="Referensi">
-      <Card>
-        <ul className="space-y-3 text-sm md:text-lg">
-          <li>Agresti, A. (2015). <i>Foundations of Linear and Generalized Linear Models</i>. Wiley.</li>
-          <li>Dobson, A. J., &amp; Barnett, A. G. (2018). <i>An Introduction to Generalized Linear Models</i> (4th ed.). CRC Press.</li>
-          <li>Hardin, J. W., &amp; Hilbe, J. M. (2018). <i>Generalized Linear Models and Extensions</i> (4th ed.). Stata Press.</li>
-          <li>McCullagh, P., &amp; Nelder, J. A. (1989). <i>Generalized Linear Models</i> (2nd ed.). Chapman &amp; Hall.</li>
-          <li>Nelder, J. A., &amp; Wedderburn, R. W. M. (1972). Generalized linear models. <i>Journal of the Royal Statistical Society, Series A, 135</i>(3), 370–384.</li>
-          <li>Video rujukan (YouTube): youtu.be/ZvRX9nFWQOo</li>
-        </ul>
-      </Card>
-      <Note>Pembuat dan tahun video rujukan belum dilengkapi pada makalah; lengkapi sebelum dipresentasikan.</Note>
-    </Frame>
-  );
-}
-
 /* 17 — Penutup */
 export function Closing() {
   return (

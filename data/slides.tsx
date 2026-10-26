@@ -19,6 +19,5 @@ export const slides: SlideDef[] = [
   { id: "deskriptif", title: "Statistika Deskriptif", Component: S.Descriptive },
   { id: "kesimpulan", title: "Kesimpulan", Component: S.Conclusion },
   { id: "saran", title: "Saran", Component: S.Suggestions },
-  { id: "referensi", title: "Referensi", Component: S.References },
   { id: "penutup", title: "Terima Kasih dan Tanya Jawab", Component: S.Closing },
 ];
