@@ -160,25 +160,7 @@ export function Inference() {
   );
 }
 
-/* 15 — Saran */
-export function Suggestions() {
-  return (
-    <Frame kicker="Penutup" title="Saran">
-      <Card>
-        <Bullets
-          items={[
-            "Gunakan data absensi nyata dan sampel lebih besar; 20 karyawan simulasi hanya cukup untuk ilustrasi metode",
-            "Periksa asumsi Gaussian dengan Q-Q plot dan plot residual; pertimbangkan model ordinal untuk skor 1–10",
-            "Uji interaksi jenis kelamin × pengalaman; bandingkan model dengan AIC/BIC pada respons yang sama",
-            "Bila data nyata overdispersed, gunakan quasi-Poisson atau binomial negatif",
-          ]}
-        />
-      </Card>
-    </Frame>
-  );
-}
-
-/* 17 — Penutup */
+/* Penutup */
 export function Closing() {
   return (
     <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 px-6 py-10 md:px-12">

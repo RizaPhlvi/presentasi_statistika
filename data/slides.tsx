@@ -22,6 +22,5 @@ export const slides: SlideDef[] = [
   { id: "menu-spss", title: "Bagian-Bagian GLM di SPSS", Component: S.SpssMenus },
   { id: "langkah-spss", title: "Langkah Praktik di SPSS", Component: S.SpssSteps },
   { id: "kesimpulan", title: "Kesimpulan", Component: S.Conclusion },
-  { id: "saran", title: "Saran", Component: S.Suggestions },
   { id: "penutup", title: "Terima Kasih dan Tanya Jawab", Component: S.Closing },
 ];
